@@ -45,7 +45,9 @@ with open("07_files/CAM_table.txt") as f:
     for line in f:
         cam_tab = line.split()
         if cam_tab and cam_tab[0].isdigit():
-            vlan, mac, _, intef = cam_tab
-            crush.append([int(vlan), mac, intef])
+            vlan, mac, _, interface = cam_tab
+            crush.append([int(vlan), mac, interface])
+
+
 for vlan, mac, interface in sorted(crush):
-    print(f"{vlan:<10}{mac:20}{intef}")
+    print(f"{vlan:<10}{mac:20}{interface}")

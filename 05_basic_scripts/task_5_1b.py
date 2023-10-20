@@ -52,6 +52,7 @@ london_co = {
 }
 
 search = input("Введите имя устройства: ")
-search_par = input("Введите имя параметра: ")
+par = ", ".join(london_co[search].keys())
+search_par = input(f"Введите имя параметра ({par}): ")
 london_sel = london_co[search]
 print(london_sel[search_par])

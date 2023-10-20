@@ -23,7 +23,7 @@ ip2 = ip.split(".")
 
 
 f = True
-if len(ip2) !=4:
+if len(ip2) !=4 or '' in ip2:
      f = False
 else:
     for i in range(len(ip2)-1):
