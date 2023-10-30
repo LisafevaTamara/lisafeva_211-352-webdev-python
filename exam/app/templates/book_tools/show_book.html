@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Книга "{{ book.name }}"</h1>
+    <img src="{{ cover }}" class="cover mx-auto d-block py-4" />
+    <div class="fs-3">Описание</div>
+    <div class="fs-4 pb-4 border-desc">{{ book.short_desc | safe }}</div>
+    <div class="container pb-4">
+        <div>Автор: {{ book.author }}</div>
+        <div>Жанры: {{ book.genres }}</div>
+        <div>Год: {{ book.year }}</div>
+        <div>Издательство: {{ book.publishing_house }}</div>
+        <div>Количество страниц: {{ book.count_pages }}</div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="fs-2 text-center">Рецензии</div>
+        {% if reviews %}
+        {% for review in reviews %}
+        <div class="container border-review my-2">
+            <div class="d-flex flex-row mb-3">
+                <div class="px-2">{{ review.get_name_user }}</div>
+                <div class="px-3">{{ review.estimation }}★</div>
+                <div class="ms-auto px-2">{{ review.created_at }}</div>
+            </div>
+            <hr />
+            <div>
+                {{ review.text | safe }}
+            </div>
+        </div>
+
+        {% endfor %}
+        {% else %}
+        <div class="fs-4">Рецензий пока нет</div>
+        {% endif %}
+        {% if not is_review %}
+        <a class="btn btn-success m-2" href="{{ url_for('book_tools.create_review', book_id=book.id) }}">Оставить
+            рецензию</a>
+        {% endif %}
+        {% if not current_user.is_authenticated %}
+        <div class="fs-4">Для того чтобы оставить рецензию, необходимо авторизоваться.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

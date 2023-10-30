@@ -1,0 +1,34 @@
+.border-error {
+    border: 1.2px solid #dc3545;
+    border-radius: 10px;
+    margin: 15px 0;
+    padding: 2px;
+}
+
+.border-desc {
+    border: 1.2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.border-review {
+    border: 1.2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.text-error {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: #dc3545;
+}
+
+.cover-preview {
+    border: 3px dashed grey;
+    flex-grow: 1;
+}
+
+.cover {
+    height: 600px;
+}

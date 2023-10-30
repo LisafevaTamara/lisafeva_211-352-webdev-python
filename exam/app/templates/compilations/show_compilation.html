@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% from "table_books.html" import table_books %}
+
+{% block content %}
+
+<div class="p-5">
+    <h1 class="text-center pb-4">Список книг из подборки {{ compilation.name }}</h1>
+    {{ table_books(books, current_user, "compilations") }}
+</div>
+
+{% endblock %}

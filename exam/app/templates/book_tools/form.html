@@ -1,0 +1,110 @@
+{% macro edit_and_create_book(genres, book, errors, type) %}
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Название</label>
+            <input type="text" class="form-control {% if errors.name %}is-invalid{% endif %}" id="name" name="name" {%
+                if book %}value="{{ book.name }}" {% endif %}>
+            {% if errors.name %}
+            <div id="name1" class="invalid-feedback">
+                {{ errors.name }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="author" class="form-label">Автор</label>
+            <input type="text" class="form-control {% if errors.author %}is-invalid{% endif %}" id="author"
+                name="author" {% if book %}value="{{ book.author }}" {% endif %}>
+            {% if errors.author %}
+            <div id="author1" class="invalid-feedback">
+                {{ errors.author }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-3 {% if errors.short_desc %}border-error{% endif %}">
+            <label for="text-area" class="form-label">Описание</label>
+            <textarea class="form-control" id="text-area"
+                name="short_desc">{% if book %}{{ book.short_desc }}{% endif %}</textarea>
+            {% if errors.short_desc %}
+            <div class="text-error px-2">
+                {{ errors.short_desc }}
+            </div>
+            {% endif %}
+            <script>
+                const easymde = new EasyMDE({
+                    element: document.getElementById('text-area'),
+                });
+            </script>
+        </div>
+
+        <div class="mb-3 {% if errors.genres %}border-error{% endif %}">
+            <label for="genres" class="form-label">Жанры</label>
+            <select class="form-select" multiple aria-label="multiple select" name="genres">
+                {% for genre in genres %}
+                <option value="{{ genre.id }}" {% if book %} {% if genre.id | string in book.genres | string %} selected
+                    {% endif %} {% endif %}>{{ genre.name }}</option>
+                {% endfor %}
+            </select>
+            {% if errors.genres %}
+            <div class="text-error px-2">
+                {{ errors.genres }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="year" class="form-label">Год</label>
+            <input type="text" class="form-control {% if errors.year %}is-invalid{% endif %}" id="year" name="year" {%
+                if book %}value="{{ book.year }}" {% endif %}>
+            {% if errors.year %}
+            <div id="year1" class="invalid-feedback">
+                {{ errors.year }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="publishingHouse" class="form-label">Издательство</label>
+            <input type="text" class="form-control {% if errors.publishing_house %}is-invalid{% endif %}"
+                id="publishingHouse" name="publishing_house" {% if book %}value="{{ book.publishing_house }}" {% endif
+                %}>
+            {% if errors.publishing_house %}
+            <div id="publishingHouse1" class="invalid-feedback">
+                {{ errors.publishing_house }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="count" class="form-label">Количество страниц</label>
+            <input type="text" class="form-control {% if errors.count_pages %}is-invalid{% endif %}" id="count"
+                name="count_pages" {% if book %}value="{{ book.count_pages }}" {% endif %}>
+            {% if errors.count_pages %}
+            <div id="count1" class="invalid-feedback">
+                {{ errors.count_pages }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if type == "create" %}
+        <div class="mb-3  {% if errors.cover %}border-error{% endif %}">
+            <label for="cover" class="form-label">Обложка</label>
+            <input class="form-control" type="file" id="cover" name="cover">
+            {% if errors.cover %}
+            <div class="text-error px-2">
+                {{ errors.cover }}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+</div>
+
+{% endmacro %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% from "book_tools/form.html" import edit_and_create_book %}
+
+{% block content %}
+
+<h1 class="text-center">Редактирование книги "{{ book.name }}"</h1>
+{{ edit_and_create_book(genres, book, errors, "edit") }}
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% macro table_books(books, current_user, pages) %}
+{% if books %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                Название
+            </th>
+            <th>
+                Автор
+            </th>
+            <th>
+                Жанры
+            </th>
+            <th>
+                Год
+            </th>
+            <th>
+                Количество рецензий
+            </th>
+            <th>
+                Оценка
+            </th>
+            <th>
+                Действие
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>
+                {{ loop.index }}
+            </td>
+            <td>
+                {{ book.name }}
+            </td>
+            <td>
+                {{ book.author }}
+            </td>
+            <td>
+                {% if book.genres %}
+                <ul class="list-group list-group-flush">
+                    {% for genre in book.genres %}
+                    <li>{{ genre }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </td>
+            <td>
+                {{ book.year }}
+            </td>
+            <td>
+                {{ book.count_reviews }}
+            </td>
+            <td>
+                ★ {{ book.estimation }}
+            </td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-success"
+                        href="{{ url_for('book_tools.show_book', book_id=book.id) }}">Просмотр</a>
+                    {% if current_user.is_admin or current_user.is_moderator %}
+                    <a class="btn btn-primary"
+                        href="{{ url_for('book_tools.edit_book', book_id=book.id) }}">Редактировать</a>
+                    {% endif %}
+                    {% if current_user.is_admin %}
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        data-url="{{ url_for('book_tools.delete_book', book_id=book.id) }}" data-name="{{ book.name }}">
+                        Удалить </button>
+                    {% endif %}
+                    {% if pages != "compilations" and current_user.is_user %}
+                    <button type="button" class="btn  btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#addBookInCompilationModal"
+                        data-url="{{ url_for('compilations.add_book_in_compilation', book_id=book.id) }}"
+                        data-name="{{ book.name }}"> Добавить в подборку </button>
+                    {% endif %}
+                </div>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<h2 class="p-2 text-center">Пока что ничего нет</h2>
+{% if current_user.is_admin %}
+<h4 class="p-2 text-center">Вы можете добавить книги!</h4>
+{% endif %}
+{% endif %}
+{% endmacro %}

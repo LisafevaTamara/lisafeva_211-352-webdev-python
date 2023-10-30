@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% from "pagination.html" import pagination %}
+{% from "table_books.html" import table_books %}
+
+{% block content %}
+<div class="p-5">
+    <h1 class="text-center pb-4">Список книг</h1>
+    {% if current_user.is_admin %}
+    <div class="d-flex justify-content-center align-items-center">
+        <a class="btn btn-primary" href="{{ url_for('book_tools.create_book') }}">Добавить новую книгу</a>
+    </div>
+    {% endif %}
+    {{ table_books(books, current_user, "index") }}
+    <div class="d-flex justify-content-center align-items-center">
+        {{ pagination(page, page_count, request.endpoint) }}
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Удаление книги</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить книгу
+                <span class="delete-book-name"></span>
+                ?
+                <form action="" class="d-none" method="POST">
+                    <input type="submit" id="submit-delete">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <label for="submit-delete" class="btn btn-danger mb-0">Удалить</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addBookInCompilationModal" tabindex="-1" aria-labelledby="addBookInCompilationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Добавление книги в подборку</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Книга:
+                <span class="add-book-in-compilation-book-name"></span>
+                <form action="" method="POST" class="my-2">
+                    <label for="select-compilation" class="form-label">Выберите подборку:</label>
+                    <select class="form-select" aria-label="Default select example" id="select-compilation"
+                        name="compilations">
+                        <option selected>Подборки</option>
+                        {% for compilation in compilations %}
+                        <option value="{{ compilation.id }}">{{ compilation.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="d-none" type="submit" id="submit-add-book-in-compilation">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <label for="submit-add-book-in-compilation" class="btn btn-primary mb-0">Добавить</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='delete.js')}}"></script>
+
+{% endblock %}
